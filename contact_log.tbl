@@ -1,0 +1,62 @@
+DROP SEQUENCE seq_cl;
+DROP INDEX i_call_log;
+DROP TABLE call_log;
+
+CREATE TABLE call_log
+(
+	log_id NUMBER PRIMARY KEY,
+	name VARCHAR2(200),
+	pnumber VARCHAR2(200),
+	type VARCHAR2(200),
+	call_date VARCHAR2(100) UNIQUE,
+	duration VARCHAR2(100),
+	phone VARCHAR2(100),
+	timestamp TIMESTAMP 
+);
+CREATE SEQUENCE seq_cl;
+CREATE INDEX i_contact_log ON call_log(pnumber);
+
+
+CREATE OR REPLACE PROCEDURE insert_to_call_log
+(
+p_name VARCHAR2,
+p_pnumber VARCHAR2,
+p_type VARCHAR2,
+p_call_date VARCHAR2,
+p_duration VARCHAR2,
+p_device VARCHAR2
+)
+IS
+x NUMBER;
+BEGIN
+    BEGIN
+        SELECT 1 INTO x FROM call_log
+        WHERE call_date = p_call_date;
+    EXCEPTION WHEN no_data_found  THEN
+        INSERT INTO call_log
+		(
+			log_id,
+			name,
+			pnumber,
+			type,
+			call_date,
+			duration,
+			timestamp,
+			phone
+		)
+        VALUES
+        (
+            seq_cl.NEXTVAL,
+            p_name,
+            p_pnumber,
+            p_type,
+            p_call_date,
+            p_duration,
+            SYSDATE,
+			p_device
+        );
+    END;
+END;    
+
+
+CREATE INDEX call_date_index ON call_log(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS'))
