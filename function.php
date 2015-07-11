@@ -71,7 +71,11 @@ function show_data($conn,$myArray,$mdata)
 	if($name != "") $where[] = " lower(name) like :name ";
 	
 	if($fromD != "" AND $toD != "")
-			$where[] = " TRUNC(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS')) between :fromDate AND :toDate ";
+	{
+			// $where[] = " TRUNC(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS')) between :fromDate AND :toDate ";
+			
+			$where[] = "TRUNC(d_call_date) between :fromDate AND :toDate ";
+	}
 		
 	if($phone != "")
 			$where[] = ' lower(phone) = :phone_val ';

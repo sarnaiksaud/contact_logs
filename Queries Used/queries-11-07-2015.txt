@@ -1,0 +1,27 @@
+select 
+TO_CHAR(
+TO_DATE(
+--'[' ||
+UPPER(SUBSTR(call_date,1,INSTR(call_date,'GMT')-1))
+--'MON APR 27 11:29:28 '
+--SYSDATE
+--||']'
+,'DY MON DD HH:MI:SS')
+,'DD:MM:YYYY HH24:MI:SS')
+from call_log
+where rownum = 1;
+
+alter table call_log add d_call_date date
+--after call_date
+
+update call_log
+set d_call_date = TO_DATE(UPPER(SUBSTR(call_date,1,INSTR(call_date,'GMT')-1)),'DY MON DD HH24:MI:SS');
+
+select name,pnumber,type,to_CHAR(d_call_date,'DD.MON.YYYY HH24:MI:SS'),duration, ROUND(duration/60,2) || ' Minutes' Minutes
+from call_log
+where 
+--d_call_date between '01-Jul-2015' and sysdate and 
+duration > 0
+order by TO_NUMBER(duration) desc;
+
+Mon Apr 27 11:29:28 GMT+05:30 2015

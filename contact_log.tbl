@@ -9,6 +9,7 @@ CREATE TABLE call_log
 	pnumber VARCHAR2(200),
 	type VARCHAR2(200),
 	call_date VARCHAR2(100) UNIQUE,
+	d_call_date DATE,
 	duration VARCHAR2(100),
 	phone VARCHAR2(100),
 	timestamp TIMESTAMP 
@@ -39,6 +40,7 @@ BEGIN
 			name,
 			pnumber,
 			type,
+			d_call_date,
 			call_date,
 			duration,
 			timestamp,
@@ -50,6 +52,7 @@ BEGIN
             p_name,
             p_pnumber,
             p_type,
+			TO_DATE(UPPER(SUBSTR(p_call_date,1,INSTR(p_call_date,'GMT')-1)),'DY MON DD HH24:MI:SS')
             p_call_date,
             p_duration,
             SYSDATE,
@@ -59,4 +62,7 @@ BEGIN
 END;    
 
 
-CREATE INDEX call_date_index ON call_log(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS'))
+CREATE INDEX call_date_index ON call_log(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS'));
+
+create index d_call_date_index
+on call_log(TRUNC(d_call_date));
