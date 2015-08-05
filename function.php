@@ -80,6 +80,8 @@ function show_data($conn,$myArray,$mdata)
 	if($phone != "")
 			$where[] = ' lower(phone) = :phone_val ';
 		
+	$where[] = ' duration <> 0 ';
+	
 	$query = $query . "WHERE " . implode('AND ', $where);
 	
 	$query = $query . ' group by pnumber,name,type,phone ';

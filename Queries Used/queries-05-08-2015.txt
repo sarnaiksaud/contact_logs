@@ -1,0 +1,59 @@
+--Update call_log set pnumber = '+91'|| pnumber 
+--where get_number_type(pnumber) = 3;
+
+select * from call_log_temp;
+
+select pnumber,get_number_type(pnumber) "ntype" from call_log_temp
+where get_number_type(pnumber) = 3;
+
+
+select trunc(d_call_date) day,CEIL(sum(duration)/60) || ' minutes' as time, count(*) count
+from call_log
+where UPPER(name) = 'TASMINE'
+and duration <> 0
+group by trunc(d_call_date)
+order by to_number(CEIL(sum(duration)/60)) desc
+
+select name,trunc(d_call_date) day,CEIL(sum(duration)/60) || ' minutes' as time, count(*) count,Type
+from call_log
+where UPPER(name) like UPPER('%')
+and duration <> 0
+and UPPER(type) = 'OUTGOING'
+group by trunc(d_call_date),name,type
+having CEIL(sum(duration)/60) >= 50
+order by trunc(d_call_date) desc,to_number(CEIL(sum(duration)/60)) desc      
+
+CREATE OR REPLACE PROCEDURE to_log
+(
+p_query VARCHAR2
+)
+IS
+BEGIN
+    INSERT INTO log
+    (
+        log_id,
+        query,
+        timestamp
+    )
+    VALUES
+    (
+        log_cl.NEXTVAL,
+        p_query,
+        SYSDATE,
+    );
+END; 
+-----------------------------------------------------------------
+DECLARE
+BEGIN
+    FOR c in (select pnumber,get_number_type(pnumber) ntype from call_log) LOOP
+    
+        IF c.ntype = 3 THEN
+        
+            DBMS_OUTPUT.PUT_LINE(c.pnumber || ' - +91' || c.pnumber);
+            
+        END IF;
+        
+    END LOOP;
+END;
+-----------------------------------------------------------------------
+select rowid,q.* from query_log q;

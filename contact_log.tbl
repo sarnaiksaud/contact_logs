@@ -1,6 +1,8 @@
 DROP SEQUENCE seq_cl;
+DROP SEQUENCE log_cl;
 DROP INDEX i_call_log;
 DROP TABLE call_log;
+DROP TABLE QUERY_LOG;
 
 CREATE TABLE call_log
 (
@@ -16,6 +18,14 @@ CREATE TABLE call_log
 );
 CREATE SEQUENCE seq_cl;
 CREATE INDEX i_contact_log ON call_log(pnumber);
+CREATE TABLE QUERY_LOG
+(
+	log_id NUMBER PRIMARY KEY,
+	query VARCHAR2(4000),
+	status VARCHAR2(20),
+	timestamp TIMESTAMP 
+);
+CREATE SEQUENCE log_cl;
 
 
 CREATE OR REPLACE PROCEDURE insert_to_call_log
@@ -29,11 +39,20 @@ p_device VARCHAR2
 )
 IS
 x NUMBER;
+pnumber_f VARCHAR2(20);
 BEGIN
     BEGIN
         SELECT 1 INTO x FROM call_log
         WHERE call_date = p_call_date;
+		
     EXCEPTION WHEN no_data_found  THEN
+	
+		pnumber_f := p_pnumber;
+		
+		IF get_number_type(pnumber_f) = 3 THEN
+			pnumber_f := '+91' || pnumber_f;
+		END IF;
+		
         INSERT INTO call_log
 		(
 			log_id,
@@ -50,9 +69,9 @@ BEGIN
         (
             seq_cl.NEXTVAL,
             p_name,
-            p_pnumber,
+            pnumber_f,
             p_type,
-			TO_DATE(UPPER(SUBSTR(p_call_date,1,INSTR(p_call_date,'GMT')-1)),'DY MON DD HH24:MI:SS')
+			TO_DATE(UPPER(SUBSTR(p_call_date,1,INSTR(p_call_date,'GMT')-1)),'DY MON DD HH24:MI:SS'),
             p_call_date,
             p_duration,
             SYSDATE,
@@ -61,8 +80,86 @@ BEGIN
     END;
 END;    
 
+CREATE OR REPLACE PROCEDURE to_log
+(
+p_query VARCHAR2,
+p_status VARCHAR2
+)
+IS
+x NUMBER;
+BEGIN
+    BEGIN
+        SELECT 1 INTO x FROM query_log
+        WHERE UPPER(query) = UPPER(p_query) AND status = p_status;
+		
+    EXCEPTION WHEN no_data_found  THEN
+		INSERT INTO query_log
+		(
+			log_id,
+			query,
+			status,
+			timestamp
+		)
+		VALUES
+		(
+			log_cl.NEXTVAL,
+			p_query,
+			p_status,
+			SYSDATE
+		);
+	END;
+END; 
+/
+SHOW ERROR;
+
 
 CREATE INDEX call_date_index ON call_log(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS'));
 
 create index d_call_date_index
 on call_log(TRUNC(d_call_date));
+
+------------------------------------------------
+Test
+
+CREATE OR REPLACE FUNCTION get_number_type (p_number VARCHAR2)
+RETURN NUMBER
+AS
+--DECLARE
+    pnumber VARCHAR(20);
+    plength NUMBER;
+    ntype NUMBER;
+BEGIN
+
+    --for c in (select distinct length(pnumber) len from call_log order by 1) loop
+        --select pnumber,length(pnumber) into pnumber,plength from call_log where length(pnumber) = c.len and rownum <= 1;
+        --DBMS_OUTPUT.PUT_LINE('PNUMBER : ' || pnumber);
+        
+        pnumber := p_number;
+        plength := length(pnumber);
+        
+        IF plength between 0 and 2 THEN
+            ntype := 0;
+            --DBMS_OUTPUT.PUT_LINE(plength || ' - ' || pnumber || ' - INVALID NUMBER');
+        ELSIF plength between 3 and 7 THEN
+            ntype := 1;
+            --DBMS_OUTPUT.PUT_LINE(plength || ' - ' || pnumber || ' - CC NUMBER');
+        ELSIF plength between 8 and 9 THEN
+            ntype := 2;
+            --DBMS_OUTPUT.PUT_LINE(plength || ' - ' || pnumber || ' - LL NUMBER');
+        ELSIF plength = 10 THEN
+            ntype := 3;
+            --DBMS_OUTPUT.PUT_LINE(plength || ' - ' || pnumber || ' - MOBILE NUMBER NOT FORMATTED');
+        ELSIF plength = 11 THEN
+            ntype := 4;
+            --DBMS_OUTPUT.PUT_LINE(plength || ' - ' || pnumber || ' - TOLL FREE FORMATTED');
+        ELSIF plength = 13 THEN
+            ntype := 5;            
+            --DBMS_OUTPUT.PUT_LINE(plength || ' - ' || pnumber || ' - MOBILE NUMBER FORMATTED');
+        ELSE
+            ntype := 6;
+            --DBMS_OUTPUT.PUT_LINE(plength || ' - ' || pnumber || ' - INTERNATIONAL NUMBER');
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(ntype || ' TYPE ');
+    --end loop;
+	RETURN ntype;
+END;
