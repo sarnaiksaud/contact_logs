@@ -13,3 +13,11 @@ where rownum <= 10
 and lower(type) <> 'missed'
 group by pnumber,name,type
 order by sum(duration) desc
+------------------------------------
+
+select UPPER('create or replace view ' || view_name || chr(13) || 'AS '  || chr(13) || to_char(text) || ';'|| chr(13)|| chr(13)|| chr(13))
+from myview
+where view_name <> 'Q9'
+
+create table myview as
+select view_name,to_lob(text) text from user_views

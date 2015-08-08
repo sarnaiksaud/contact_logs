@@ -8,7 +8,7 @@
 </tr>
 <?php
 
-	$conn = oci_connect('Saud', 'saud', 'localhost') or die ("Error connection to db");
+	include_once('db.php');
 	
 	$stmt = oci_parse($conn, "SELECT * FROM call_log order by log_id desc");
 	if(oci_execute($stmt))

@@ -6,7 +6,7 @@
 	$data = $_REQUEST['data'];
 	$count = $_REQUEST['count'];
 	
-	$conn = oci_connect('Saud', 'saud', 'localhost') or die ("Error connection to db");
+	include_once('db.php');
 	
 	$json = json_decode($data);
 	
