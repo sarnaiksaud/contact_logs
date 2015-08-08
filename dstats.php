@@ -43,7 +43,7 @@ while($phone=oci_fetch_array($stmt))
 	<tr><td>Calls more than</td><td><input name="callcount" value='2' type="text"></td></tr>
 	<tr><td>Show Numbers</td><td><input type="checkbox" name="shownum"/>
 	<tr colspan=2><td><input type="submit"></td></tr>
-	<tr colspan=2><td><button onclick="openWindow()">Show Detailed Data</button></td></tr>
+	<tr colspan=2><td><button onclick="openWindow()">Show Graphical Data</button></td></tr>
 	</table>
 	<hr>
 </form>
@@ -54,7 +54,7 @@ while($phone=oci_fetch_array($stmt))
 <script>
 	function openWindow()
 	{
-		window.open('dstats.php');
+		window.open('stats.php');
 	}
 </script>
 </body>

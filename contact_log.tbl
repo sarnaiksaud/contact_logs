@@ -163,3 +163,25 @@ BEGIN
     --end loop;
 	RETURN ntype;
 END;
+
+
+
+create or replace view top_10_calls
+as
+select name,pnumber,ROUND(sum(duration)/60,2) total_duration,count(*) total_count,type 
+from call_log
+where duration <> 0
+group by pnumber,name,type
+
+
+
+
+create or replace view top_10_O_count
+as
+select * from (select * from top_10_calls where lower(type) = 'outgoing'
+order by total_count desc,total_duration desc) where rownum <= 10
+
+create or replace view top_10_I_count
+as
+select * from (select * from top_10_calls where lower(type) = 'incoming'
+order by total_count desc,total_duration desc) where rownum <= 10;

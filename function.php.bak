@@ -27,7 +27,7 @@ function show_data($conn,$myArray,$mdata)
 	
 	if($type == 'all')
 		$type = '';
-
+	
 	if(isset($myArray['number']))
 	{
 		if($myArray['number'] != "")
@@ -71,17 +71,11 @@ function show_data($conn,$myArray,$mdata)
 	if($name != "") $where[] = " lower(name) like :name ";
 	
 	if($fromD != "" AND $toD != "")
-	{
-			// $where[] = " TRUNC(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS')) between :fromDate AND :toDate ";
-			
-			$where[] = "TRUNC(d_call_date) between :fromDate AND :toDate ";
-	}
+			$where[] = " TRUNC(TO_DATE(SUBSTR(call_date,5,INSTR(call_date,'GMT', 1)-6),'Mon DD HH24:MI:SS')) between :fromDate AND :toDate ";
 		
 	if($phone != "")
 			$where[] = ' lower(phone) = :phone_val ';
 		
-	$where[] = ' duration <> 0 ';
-	
 	$query = $query . "WHERE " . implode('AND ', $where);
 	
 	$query = $query . ' group by pnumber,name,type,phone ';
@@ -125,14 +119,8 @@ function show_data($conn,$myArray,$mdata)
 			$label = $name_row[0];
 			if($shownum == "on")
 			{
-				if($mdata == 1)
-				{		
-					$label = $label . "</td><td class='wborder'> [" .$name_row[1] . "]";
-				}
-				else
-				{
+					
 					$label = $label . ' [' .$name_row[1] . ']';
-				}
 			}
 				
 			if($mdata == 1)
@@ -148,9 +136,9 @@ function show_data($conn,$myArray,$mdata)
 			else
 			{
 				if($type == "")
-					$label = $label . " (".strtoupper(substr($name_row[2],0,1)).")";	
-				if($phone == "")
-					$label = $label . " (".strtoupper(substr($name_row[5],0,1)).")";
+				$label = $label . " (".strtoupper(substr($name_row[2],0,1)).")";	
+			if($phone == "")
+				$label = $label . " (".strtoupper(substr($name_row[5],0,1)).")";
 			
 			$name_array[] = array("y"=>$name_row[3],"indexLabel"=>$label);
 			}
@@ -165,11 +153,6 @@ function show_data($conn,$myArray,$mdata)
 		if($phone != "")
 			$phone_name = substr($phone,0,strpos($phone,'/',1));
 		
-		if($type == "")
-			$type = "All";
-		else
-			$type = ucwords($type);
-		
 		if($phone != "")
 			echo "var title = '$type calls between $fromD and $toD on " . ucfirst($phone_name) . "' ;";
 		else
@@ -182,7 +165,6 @@ function show_data($conn,$myArray,$mdata)
 	else
 	{
 		echo "<table>";
-			echo "<tr><th class='wborder'>Count</th><th class='wborder'>Name</th><th class='wborder'>Number</th><th class='wborder'>Type</th><th class='wborder'>Phone</th></tr>";
 			foreach($name_array as $name)
 			{
 				echo "<tr>";
@@ -193,5 +175,8 @@ function show_data($conn,$myArray,$mdata)
 			}
 		echo "</table>";
 	}
+
+
+	
 }
 ?>

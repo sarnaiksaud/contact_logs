@@ -1,0 +1,15 @@
+create or replace view top_10_calls
+as
+select name,pnumber,ROUND(sum(duration)/60,2) total_duration,count(*) total_count,type from call_log
+where pnumber in (
+select pnumber from (
+select pnumber 
+from call_log
+group by pnumber
+order by sum(duration) desc)
+where rownum <= 10
+)
+--and lower(type) = 'incoming'
+and lower(type) <> 'missed'
+group by pnumber,name,type
+order by sum(duration) desc
