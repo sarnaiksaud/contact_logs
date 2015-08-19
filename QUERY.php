@@ -5,7 +5,7 @@
 </head>
 <body>
 <?php
-include_once('db.php');
+$conn = oci_connect('saud', 'saud', 'localhost') or die ("Error connection to db");
 
 $q = "select name,trunc(d_call_date) day,CEIL(sum(duration)/60) || ' minutes' as time, count(*) count,Type
 from call_log
@@ -90,6 +90,7 @@ echo $q;?>
 	oci_execute($stmt1);
 	
 	echo "finally";
+	
 	
 ?>
 
