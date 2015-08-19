@@ -1,0 +1,10 @@
+create sequence call_log_audit_seq;
+
+create table call_log_audit
+(
+    id number primary key,
+    column_name VARCHAR2(30),
+    OLD_value VARCHAR2(30),
+    NEW_VALUE VARCHAR2(30),
+    timestamp timestamp default systimestamp
+);

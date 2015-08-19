@@ -27,3 +27,24 @@ BEGIN
 	EXECUTE IMMEDIATE V_SQL;
 	
 END;
+
+
+
+create or replace trigger call_log_audit_trg
+after update of name on call_log
+for each row
+DECLARE
+PRAGMA AUTONOMOUS_TRANSACTION;
+begin
+insert into call_log_audit
+VALUES
+(
+call_log_audit_seq.NEXTVAL,
+'NAME',
+:old.name,
+:new.name,
+systimestamp
+);
+commit;
+end;
+/ 
