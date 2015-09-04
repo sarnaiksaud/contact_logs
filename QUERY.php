@@ -38,11 +38,12 @@ echo $q;?>
 	try
 	{
 		//echo $_REQUEST['query'];
-		$stmt = oci_parse($conn, $q);
+		$q_1 = "SELECT * FROM (".$q.") WHERE EXISTS (SELECT 1 FROM CHECK_TABLE WHERE ROWNUM <= 1)";
+		$stmt = oci_parse($conn, $q_1);
 		
 		$cnt = substr_count($q,',',0,strpos($q,'from'))+1;
 		
-		$subs = substr($q,strpos($q,' '),strpos($q,'from')-strpos($q,' '));
+		$subs = substr($q,strpos($q_1,' '),strpos($q,'from')-strpos($q,' '));
 		$sub_a = explode(',',$subs);
 		
 		//echo "substr : $subs";
@@ -89,7 +90,6 @@ echo $q;?>
 	oci_bind_by_name($stmt1, "status", $result);
 	oci_execute($stmt1);
 	
-	echo "finally";
 	
 	
 ?>

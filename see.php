@@ -1,5 +1,6 @@
 <table border=1>
 <tr>
+	<th>Log_id</th>
 	<th>Name</th>
 	<th>Number</th>
 	<th>Type</th>
@@ -17,6 +18,7 @@
 		{
 		?>
 			<tr>
+				<td><?=$name_row[0]?></td>
 				<td><?=$name_row[1]?></td>
 				<td><?=$name_row[2]?></td>
 				<td><?=$name_row[3]?></td>
