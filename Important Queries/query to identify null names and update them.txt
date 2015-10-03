@@ -1,0 +1,5 @@
+select distinct pnumber,name from call_log where pnumber in (select pnumber from call_log c
+where name is null
+and exists (select 1 from call_log where pnumber = c.pnumber and name = c.name)
+group by pnumber)
+and name is not null;

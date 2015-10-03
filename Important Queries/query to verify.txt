@@ -1,0 +1,6 @@
+select *
+from call_log
+where TO_CHAR(d_call_date,'HH24-MM') = '08-08'
+and type = 'Incoming'
+--and duration <> 0
+order by 1 nulls last;

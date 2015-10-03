@@ -1,0 +1,22 @@
+select * from(
+select 'Outgoing' as Call_type,lower(TO_CHAR(d_call_date,'MM-YYYY')) as mon from call_log
+where type = 'Outgoing' and duration <> 0
+)
+pivot(count(*)
+for mon in ('01-2015' as JAN, '02-2015' as FEB, '03-2015' as MAR, '04-2015' as APR, '05-2015' as MAY, '06-2015' as JUN, '07-2015' as JUL, '08-2015' as AUG, '09-2015' as SEP, '010-2015' as OCT, '011-2015' as NOV, '011-2015' as DEC))
+UNION ALL
+select * from(
+select 'Incoming',lower(TO_CHAR(d_call_date,'MM-YYYY')) as month from call_log
+where type = 'Incoming' and duration <> 0
+)
+pivot(count(*)
+for month in ('01-2015' as JAN, '02-2015' as FEB, '03-2015' as MAR, '04-2015' as APR, '05-2015' as MAY, '06-2015' as JUN, '07-2015' as JUL, '08-2015' as AUG, '09-2015' as SEP, '010-2015' as OCT, '011-2015' as NOV, '011-2015' as DEC))
+UNION ALL
+select * from(
+select 'Missed',lower(TO_CHAR(d_call_date,'MM-YYYY')) as month from call_log
+where type = 'Missed'
+)
+pivot(count(*)
+for month in ('01-2015' as JAN, '02-2015' as FEB, '03-2015' as MAR, '04-2015' as APR, '05-2015' as MAY, '06-2015' as JUN, '07-2015' as JUL, '08-2015' as AUG, '09-2015' as SEP, '010-2015' as OCT, '011-2015' as NOV, '011-2015' as DEC));
+
+

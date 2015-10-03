@@ -24,3 +24,7 @@ GRANT EXECUTE ON log_out TO FTEST;
 GRANT EXECUTE ON INSERT_TO_CALL_LOG TO FTEST;
 GRANT EXECUTE ON GET_NUMBER_TYPE TO FTEST;
 
+
+
+grant execute  on update_dates to front_end;
+grant execute on login_cre_p to front_end

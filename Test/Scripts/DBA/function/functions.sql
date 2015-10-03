@@ -45,3 +45,20 @@ BEGIN
     RETURN ntype;
 END;
 /
+
+create or replace function
+login_cre_p
+(p_username varchar2,p_password varchar2)
+return number
+as
+cnt number := 0;
+return_data number := -1;
+begin
+select count(*) into cnt from login_cre where username = p_username and password = p_password;
+if(cnt >= 1) then
+    return_data := 1;
+    update login_cre set last_login = SYSTIMESTAMP where username = p_username and password = p_password;
+end if;
+commit;
+return return_data;
+end;

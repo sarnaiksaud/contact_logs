@@ -65,3 +65,9 @@ CREATE TABLE call_log_audit
     NEW_VALUE VARCHAR2(30),
     timestamp TIMESTAMP DEFAULT SYSTIMESTAMP
 );
+
+
+create table login_cre
+(username varchar2(32),
+password varchar2(32),
+last_login timestamp);

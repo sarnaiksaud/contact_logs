@@ -20,4 +20,7 @@ CREATE OR REPLACE SYNONYM GET_NUMBER_TYPE FOR TEST.GET_NUMBER_TYPE;
 CREATE OR REPLACE SYNONYM LOG_IN FOR TEST.LOG_IN;
 CREATE OR REPLACE SYNONYM LOG_OUT FOR TEST.LOG_OUT;
 
+ create synonym update_dates for saud.update_dates 
+ create synonym login_cre_p for saud.login_cre_p
+
 --<E>

@@ -124,3 +124,20 @@ BEGIN
     COMMIT;
 END;
 /
+
+
+create or replace procedure 
+update_dates
+(p_start_date varchar2,p_end_date varchar2)
+is
+cnt number := 0;
+begin
+select count(*) into cnt from dates;
+IF cnt = 0 THEN
+    INSERT INTO DATES VALUES (NULL,NULL);
+END IF;
+update dates set start_date = TO_DATE(p_start_date,'YYYY-MM_DD'), end_date = TO_DATE(p_end_date,'YYYY-MM-DD');
+
+
+commit;
+end;

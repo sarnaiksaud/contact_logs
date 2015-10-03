@@ -1,0 +1,22 @@
+select * from(
+select 'Outgoing' as Call_type,trim(lower(TO_CHAR(d_call_date,'hh24-mm-yyyy'))) as day from call_log
+where type = 'Outgoing' and duration <> 0
+)
+pivot(count(*)
+for day in ('01-08-2015' as H_01, '02-08-2015' as H_02, '03-08-2015' as H_03, '04-08-2015' as H_04, '05-08-2015' as H_05, '06-08-2015' as H_06, '07-08-2015' as H_07, '08-08-2015' as H_08, '09-08-2015' as H_09, '10-08-2015' as H_10, '11-08-2015' as H_11, '12-08-2015' as H_12, '13-08-2015' as H_13, '14-08-2015' as H_14, '15-08-2015' as H_15, '16-08-2015' as H_16, '17-08-2015' as H_17, '18-08-2015' as H_18, '19-08-2015' as H_19, '20-08-2015' as H_20, '21-08-2015' as H_21, '22-08-2015' as H_22, '23-08-2015' as H_23, '24-08-2015' as H_24))
+UNION ALL
+select * from(
+select 'Incoming',trim(lower(TO_CHAR(d_call_date,'hh24-mm-yyyy'))) as day from call_log
+where type = 'Incoming' and duration <> 0
+)
+pivot(count(*)
+for day in ('01-08-2015' as H_01, '02-08-2015' as H_02, '03-08-2015' as H_03, '04-08-2015' as H_04, '05-08-2015' as H_05, '06-08-2015' as H_06, '07-08-2015' as H_07, '08-08-2015' as H_08, '09-08-2015' as H_09, '10-08-2015' as H_10, '11-08-2015' as H_11, '12-08-2015' as H_12, '13-08-2015' as H_13, '14-08-2015' as H_14, '15-08-2015' as H_15, '16-08-2015' as H_16, '17-08-2015' as H_17, '18-08-2015' as H_18, '19-08-2015' as H_19, '20-08-2015' as H_20, '21-08-2015' as H_21, '22-08-2015' as H_22, '23-08-2015' as H_23, '24-08-2015' as H_24))
+UNION ALL
+select * from(
+select 'Missed',trim(lower(TO_CHAR(d_call_date,'hh24-mm-yyyy'))) as day from call_log
+where type = 'Missed'
+)
+pivot(count(*)
+for day in ('01-08-2015' as H_01, '02-08-2015' as H_02, '03-08-2015' as H_03, '04-08-2015' as H_04, '05-08-2015' as H_05, '06-08-2015' as H_06, '07-08-2015' as H_07, '08-08-2015' as H_08, '09-08-2015' as H_09, '10-08-2015' as H_10, '11-08-2015' as H_11, '12-08-2015' as H_12, '13-08-2015' as H_13, '14-08-2015' as H_14, '15-08-2015' as H_15, '16-08-2015' as H_16, '17-08-2015' as H_17, '18-08-2015' as H_18, '19-08-2015' as H_19, '20-08-2015' as H_20, '21-08-2015' as H_21, '22-08-2015' as H_22, '23-08-2015' as H_23, '24-08-2015' as H_24));
+
+
