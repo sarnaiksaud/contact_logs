@@ -14,12 +14,37 @@ while($phone=oci_fetch_array($stmt))
 {
 	$text = $text . "<option value='".$phone[0]."'>".$phone[1]."</phone>";
 }
+	$name  = "";
+	$type  = "";
+	$number  = "";
+	$fromD  = date("Y-m-01");
+	$toD = date("Y-m-d");
+	$phone  = "";
+	$callcount = 2;
+	$shownum  = "on";
+
+if(isset($_REQUEST['shownum']))
+		$shownum  = $_REQUEST['shownum'];
+	
+
+if(isset($_REQUEST['from']))
+	$fromD = strtolower($_REQUEST['from']);
+
+if(isset($_REQUEST['to']))
+	$toD = strtolower($_REQUEST['to']);
+
+
+if(isset($_REQUEST['callcount']))
+	$callcount = $_REQUEST['callcount'];
+
+
+
 ?>
 <form>
 	<table>
 	<tr><td>Name</td><td><input name="name" type="text"></td></tr>
 	<tr><td>Number</td><td><input name="number" type="text"></td></tr>
-	<tr><td>Phone</td>
+	<tr><td>Type</td>
 	<td><select name='type'>
 				<option>All</option>
 				<option>Incoming</option>
@@ -30,18 +55,18 @@ while($phone=oci_fetch_array($stmt))
 	<tr><td>Date range</td>
 	<td>
 	From 
-		<input name="from" type="date" value="2015-01-01">
+		<input name="from" type="date" value="<?=$fromD?>">
 	To
-		<input name="to" type="date" value="<?php echo date("Y-m-d");?>">
+		<input name="to" type="date" value="<?=$toD?>">
 	</td></tr>
-	<tr><td>Type</td>
+	<tr><td>Phone</td>
 	<td><select name='phone'>
 				<option>All</option>
 				<?php echo $text; ?>
 			</select>
 	</td></tr>
-	<tr><td>Calls more than</td><td><input name="callcount" value='2' type="text"></td></tr>
-	<tr><td>Show Numbers</td><td><input type="checkbox" name="shownum"/>
+	<tr><td>Calls more than</td><td><input name="callcount" value='<?=$callcount?>' type="text"></td></tr>
+	<tr><td>Show Numbers</td><td><input type="checkbox" name="shownum" />
 	<tr colspan=2><td><input type="submit"></td></tr>
 	<tr colspan=2><td><button onclick="openWindow()">Show Graphical Data</button></td></tr>
 	</table>

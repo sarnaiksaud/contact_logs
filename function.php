@@ -37,7 +37,7 @@ function show_data($conn,$myArray,$mdata)
 	if(isset($myArray['from']))
 		$fromD = strtolower($myArray['from']);
 	else
-		$fromD = '2015-01-01';
+		$fromD = date("Y-m-01");
 	
 	if(isset($myArray['to']))
 		$toD = strtolower($myArray['to']);
@@ -62,7 +62,7 @@ function show_data($conn,$myArray,$mdata)
 	
 	$where = array();
 	
-	$query = 'SELECT NVL(name,\'Unknown\'),pnumber,type,count(*) as "Total Calls Counts",sum(duration),phone FROM call_log ';
+	$query = 'SELECT NVL(name,\'Unknown\'),pnumber,type,count(*) as "Total Calls Counts",sum(duration) duration,phone FROM call_log ';
 	
 	if($type != "") $where[] = ' lower(type) in (:type) ';
 		
@@ -143,7 +143,12 @@ function show_data($conn,$myArray,$mdata)
 					$label = $label . " </td><td class='wborder'>("
 				.ucwords(substr($name_row[5],0,strpos($name_row[5],'/'))).")";
 				
+				$label = $label . "</td><td class='wborder'>". $name_row[4];
+				
 				$name_array[] = array("y"=>$name_row[3],"indexLabel"=>$label);
+				
+				//echo "<br>namerow[6] = " . $name_row[4];
+				//echo "<br>label = " . $label;
 			}
 			else
 			{
@@ -182,7 +187,7 @@ function show_data($conn,$myArray,$mdata)
 	else
 	{
 		echo "<table>";
-			echo "<tr><th class='wborder'>Count</th><th class='wborder'>Name</th><th class='wborder'>Number</th><th class='wborder'>Type</th><th class='wborder'>Phone</th></tr>";
+			echo "<tr><th class='wborder'>Count</th><th class='wborder'>Name</th><th class='wborder'>Number</th><th class='wborder'>Type</th><th class='wborder'>Phone</th><th class='wborder'>Duration</th></tr>";
 			foreach($name_array as $name)
 			{
 				echo "<tr>";
