@@ -22,7 +22,7 @@
 			
 oci_execute($stmt);
 
-if ($return_data = 1)
+if ($return_data == 1)
 {
 	$stmt = oci_parse($conn, "begin log_in; end;");
 	oci_execute($stmt);

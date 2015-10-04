@@ -1,79 +1,104 @@
-table
-{
-	border:1px solid #000;	
-}
-td .center
+p
 {
 	text-align:center;
+	font-size:18px;
+	font-family:"Candara";
 }
-td,th
+p i
 {
-	border:1px solid #000;
+	font-size:48px;
+	font-weight:bold;
 }
-
-.wborder
+table.main
 {
-	border:1px solid #000;
-}
-
-.container {
-    float:left;
-    width:25%;
-}
-
-.container div {
-    background-color: #ABCDEF;
-    margin: 10px;
-    padding: 20px;
-}
-
-/*
-.body,.left,.middle,.right{
-	border:1px solid #000;
-}
-.body{
-	position:absolute;
-	width:95%;
-	padding:15px;
-	background-color:#ABCDEF;
-	height:90%;
-}
-
-.body div
-{
-	float:left;
-	width:25%;
-	background-color:#654321;
-	height:100%;
-}
-
-/*
-.left{
-	position:relative;
-	float:left;
-	width:25%;
-	background-color:#654321;
-	height:100%;
-	display: inline-block;
-}
-
-.middle{
-	position:absolute;
-		float:left;
 	margin-left:auto;
 	margin-right:auto;
-	width:45%;
-	background-color:#551515;
-	height:95%;
-	display: inline-block;
+	/*padding:5px 5px 5px 5px ;*/
+	border-spacing: 30px 1px;
+	border-collapse:separate;
+	/*border:1px solid #000;*/
+	text-align:center;
+}
+table.main td.ndata{
+	background-color:#b8b8b8;
 }
 
-.right{
-	position:relative;	
-	float:left;
-	width:25%;
-	background-color:#123456;
-	height:100%;
-	display: inline-block;
+table.main td.ndata,
+table.main td.data
+{
+	border:1px solid #000;
+	vertical-align: top;
+	padding:5px 5px 5px 5px ;
 }
-*/
+table.internal  th{
+	background-color:#D3D3D3;
+}
+table.internal td,table.internal  th
+{
+	border:1px solid #000;
+}
+table.internal
+{
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:0px;
+	height:auto;
+}
+/*-----------------------------------------------------------------------------------------------*/
+/*----- Tabs -----*/
+.tabs {
+    width:100%;
+    display:inline-block;
+}
+ 
+    /*----- Tab Links -----*/
+    /* Clearfix */
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+    }
+ 
+    .tab-links li {
+        margin:0px 5px;
+        float:left;
+        list-style:none;
+    }
+ 
+        .tab-links a {
+            padding:9px 15px;
+            display:inline-block;
+            border-radius:3px 3px 0px 0px;
+            background:#7FB5DA;
+            font-size:16px;
+            font-weight:600;
+            color:#4c4c4c;
+            transition:all linear 0.15s;
+        }
+ 
+        .tab-links a:hover {
+            background:#a7cce5;
+            text-decoration:none;
+        }
+ 
+    li.active a, li.active a:hover {
+        background:#fff;
+        color:#4c4c4c;
+    }
+ 
+    /*----- Content of Tabs -----*/
+    .tab-content {
+        padding:15px;
+        border-radius:3px;
+        box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+        background:#fff;
+    }
+ 
+        .tab {
+            display:none;
+        }
+ 
+        .tab.active {
+            display:block;
+        }
