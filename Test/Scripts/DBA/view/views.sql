@@ -105,29 +105,3 @@ AS
 	)
 	WHERE EXISTS (SELECT 1 FROM CHECK_TABLE WHERE ROWNUM <= 1);
 	
-
-create view hourly_analysis
-as 
-select * from(
-select 'Outgoing' as Call_type,trim(lower(TO_CHAR(d_call_date,'hh24'))) as day from call_log
-where type = 'Outgoing' and duration <> 0
-and d_call_date between (SELECT NVL(MAX(START_DATE),to_date('01' || to_char(sysdate,'-mm-yyyy'),'dd-mm-yyyy')) FROM DATES) and (SELECT NVL(MAX(END_DATE),SYSDATE) FROM DATES)
-)
-pivot(count(*)
-for day in ('00' as H_00,'01' as H_01, '02' as H_02, '03' as H_03, '04' as H_04, '05' as H_05, '06' as H_06, '07' as H_07, '08' as H_08, '09' as H_09, '10' as H_10, '11' as H_11, '12' as H_12, '13' as H_13, '14' as H_14, '15' as H_15, '16' as H_16, '17' as H_17, '18' as H_18, '19' as H_19, '20' as H_20, '21' as H_21, '22' as H_22, '23' as H_23))
-UNION ALL
-select * from(
-select 'Incoming',trim(lower(TO_CHAR(d_call_date,'hh24'))) as day from call_log
-where type = 'Incoming' and duration <> 0
-and d_call_date between (SELECT NVL(MAX(START_DATE),to_date('01' || to_char(sysdate,'-mm-yyyy'),'dd-mm-yyyy')) FROM DATES) and (SELECT NVL(MAX(END_DATE),SYSDATE) FROM DATES)
-)
-pivot(count(*)
-for day in ('00' as H_00,'01' as H_01, '02' as H_02, '03' as H_03, '04' as H_04, '05' as H_05, '06' as H_06, '07' as H_07, '08' as H_08, '09' as H_09, '10' as H_10, '11' as H_11, '12' as H_12, '13' as H_13, '14' as H_14, '15' as H_15, '16' as H_16, '17' as H_17, '18' as H_18, '19' as H_19, '20' as H_20, '21' as H_21, '22' as H_22, '23' as H_23))
-UNION ALL
-select * from(
-select 'Missed',trim(lower(TO_CHAR(d_call_date,'hh24'))) as day from call_log
-where type = 'Missed'
-and d_call_date between (SELECT NVL(MAX(START_DATE),to_date('01' || to_char(sysdate,'-mm-yyyy'),'dd-mm-yyyy')) FROM DATES) and (SELECT NVL(MAX(END_DATE),SYSDATE) FROM DATES)
-)
-pivot(count(*)
-for day in ('00' as H_00,'00' as H_01, '02' as H_02, '03' as H_03, '04' as H_04, '05' as H_05, '06' as H_06, '07' as H_07, '08' as H_08, '09' as H_09, '10' as H_10, '11' as H_11, '12' as H_12, '13' as H_13, '14' as H_14, '15' as H_15, '16' as H_16, '17' as H_17, '18' as H_18, '19' as H_19, '20' as H_20, '21' as H_21, '22' as H_22, '23' as H_23));

@@ -9,6 +9,9 @@
 	if(isset($_REQUEST['end_date']))
 			$end_date  = $_REQUEST['end_date'];
 		
+	if(isset($_REQUEST['null_end_date']))
+			$end_date  = null;
+		
 	echo "Start Date" . $start_date;
 	echo "<br>End date" . $end_date;
 	
@@ -32,6 +35,6 @@
 		echo -1;
 	}
 echo  "<script type='text/javascript'>";
-echo "window.close();";
+	echo "window.close();";
 echo "</script>";
 ?>

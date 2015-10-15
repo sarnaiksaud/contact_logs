@@ -23,6 +23,4 @@ CREATE OR REPLACE SYNONYM LOG_OUT FOR SAUD.LOG_OUT;
  create synonym update_dates for saud.update_dates 
  create synonym login_cre_p for saud.login_cre_p
  
- create synonym hourly_analysis for saud.hourly_analysis
-
 --<E>
