@@ -71,3 +71,10 @@ create table login_cre
 (username varchar2(32),
 password varchar2(32),
 last_login timestamp);
+
+CREATE TABLE upload_log
+(
+	count number,
+	uploaded_when date default trunc(SYSDATE),
+	timestamp timestamp default sysdate
+)

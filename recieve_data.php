@@ -10,10 +10,14 @@
 	
 	$json = json_decode($data);
 	
+	$counter = 0;
+	
 	if($json != null)
 	{
 		foreach ($json as $d)
 		{
+			$inserted = -1;
+			
 			$stmt = oci_parse($conn, "begin insert_to_call_log 
 			(
 			:pname,
@@ -21,7 +25,8 @@
 			:ptype,
 			:pcall_date,
 			:pduration,
-			:device
+			:device,
+			:inserted
 			);
 			END;
 			");
@@ -32,17 +37,20 @@
 			oci_bind_by_name($stmt, "pcall_date", $d->callDate);
 			oci_bind_by_name($stmt, "pduration", $d->callDuration);
 			oci_bind_by_name($stmt, "device", $d->device);
+			oci_bind_by_name($stmt, "inserted", $inserted,-1);
 			
 			oci_execute($stmt);
+			
+			if($inserted == 1) 
+				$counter++;
 		}
 	}
 	echo 1;
-	/*
-	$stmt = oci_parse($conn, "INSERT INTO TEMP_DATA VALUES (:count,:data)");
+	
+	$stmt = oci_parse($conn, "INSERT INTO upload_log (count) VALUES (:count)");
 	
 
-	oci_bind_by_name($stmt, "data", $data);
-	oci_bind_by_name($stmt, "count", $count);
+	oci_bind_by_name($stmt, "count", $counter);
 
 	if (!oci_execute($stmt)) {
 		echo '-1';
@@ -51,5 +59,5 @@
 	{
 		echo '1';
 	}
-	*/
+	
 ?>

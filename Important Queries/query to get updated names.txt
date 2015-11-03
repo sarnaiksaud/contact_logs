@@ -1,15 +1,16 @@
 select 
-distinct a.name A_NAME,
-b.name B_NAME
+distinct a.name A_NAME, b.name B_NAME
 from call_log a, call_log b
 where a.log_id != b.log_id
 and a.name <> b.name
 and a.pnumber = b.pnumber
-order by b.name;
+and a.d_call_date > b.d_call_date
+order by a.name;
+
 
 update call_log set name = 'Amit_Nayak_IGATE'	 where name='Amit_IGATE'	
-update call_log set name = 'Deepti_U_IGATE'	 where name='Deepti_net_IGATE'	
+update call_log set name = 'Deepti_net_IGATE'	 where name='Deepti_U_IGATE'	
 update call_log set name = 'Firdaus_ARKP'	 where name='Firdous_ARKP'	
 update call_log set name = 'Nabil_ARKP'	 where name='Nabil Shaikh'	
-update call_log set name = 'Priyanka Malvi'	 where name='Priyanka Malvi N'
+update call_log set name = 'Priyanka Malvi N'	 where name='Priyanka Malvi'
 
