@@ -1,11 +1,18 @@
 select 
-distinct a.name A_NAME, b.name B_NAME
+distinct a.name A_NAME,a.pnumber, b.name B_NAME
 from call_log a, call_log b
 where a.log_id != b.log_id
-and a.name <> b.name
+and nvl(a.name,'NULL') <> nvl(b.name,'NULL')
 and a.pnumber = b.pnumber
 and a.d_call_date > b.d_call_date
 order by a.name;
+
+select distinct name,pnumber from call_log where pnumber in (
+select distinct pnumber from call_log
+group by pnumber
+having count(distinct nvl(name,'NULL')) > 1)
+order by 2;
+
 
 
 update call_log set name = 'Amit_Nayak_IGATE'	 where name='Amit_IGATE'	
@@ -13,4 +20,43 @@ update call_log set name = 'Deepti_net_IGATE'	 where name='Deepti_U_IGATE'
 update call_log set name = 'Firdaus_ARKP'	 where name='Firdous_ARKP'	
 update call_log set name = 'Nabil_ARKP'	 where name='Nabil Shaikh'	
 update call_log set name = 'Priyanka Malvi N'	 where name='Priyanka Malvi'
+
+
+
+-------------------------------------------------------------------------------
+declare
+    min_timestamp date;
+    
+    p_name call_log.name%type;
+    
+    cursor main
+    is
+    select distinct pnumber from call_log where pnumber in (
+    select distinct pnumber from call_log
+    group by pnumber
+    having count(distinct nvl(name,'NULL')) = 2)
+    order by 1;
+
+begin
+
+    for m in main
+    loop
+        select distinct name 
+        into p_name
+        from call_log where pnumber = m.pnumber and name is not null
+        and timestamp = (select max(timestamp) from call_log where pnumber = m.pnumber and name is not null);
+        
+        update call_log
+        set name = p_name
+        where pnumber = m.pnumber
+        and nvl(name,'NULL') <> p_name;
+        
+        writelog('NAME_UPDATE',m.pnumber || ' has been updated with ' || p_name || '.');
+    end loop;
+EXCEPTION 
+    WHEN OTHERS THEN 
+        writelog('NAME_UPDATE','ERROR : ' || SQLERRM);
+        ROLLBACK;
+end;
+
 
