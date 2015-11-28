@@ -1,0 +1,118 @@
+body {
+    font-size:20px;
+    font-family:"Candara";
+}
+h1 {
+    display:inline;
+}
+h5 {
+    display:inline;
+}
+a.noshow{
+    color: inherit;
+    /* blue colors for links too */
+    text-decoration: inherit;
+    /* no underline */
+}
+.main {
+    padding:15px;
+    display: table;
+    margin-bottom:2px;
+    width:95%;
+    height:10px;
+}
+.picture {
+    background-color:#AAAAAA;
+    float: left;
+    text-align:center;
+}
+.size14 {
+    font-size:14px;
+}
+.size14 .picture {
+    width:40px;
+    height:40px;
+    font-size:220%;
+    margin-right:10px;
+    border-radius:500px;
+}
+.size16 {
+    font-size:16px;
+}
+.size16 .picture {
+    width:45px;
+    height:45px;
+    font-size:225%;
+    margin-right:10px;
+    border-radius:500px;
+}
+.size18 {
+    font-size:18px;
+}
+.size18 .picture {
+    width:55px;
+    height:55px;
+    font-size:250%;
+    margin-right:10px;
+    border-radius:500px;
+}
+.size20 {
+    font-size:20px
+}
+.size20 .picture {
+    width:75px;
+    height:75px;
+    font-size:300%;
+    margin-right:10px;
+    border-radius:500px;
+}
+.main:hover {
+    background-color:#CCCCCC;
+    border-radius:5px;
+}
+.line {
+    display: table-cell;
+    vertical-align: middle;
+}
+.content {
+    float: left;
+}
+p {
+    margin: 0;
+    padding: 1;
+}
+.content p.name {
+    font-size:150%;
+}
+.content p.number {
+    color:#666666;
+    font-size:85%;
+}
+.content p.type {
+    font-size:75%;
+    display:inline;
+    color:red;
+    font-weight:bold;
+}
+.content p.type_I {
+    font-size:75%;
+    display:inline;
+    color:blue;
+    font-weight:bold;
+}
+.content p.type_O {
+    font-size:75%;
+    display:inline;
+    color:Green;
+    font-weight:bold;
+}
+.content p.type_M {
+    font-size:75%;
+    display:inline;
+    color:red;
+    font-weight:bold;
+}
+.content p.time {
+    font-size:75%;
+    display:inline;
+}

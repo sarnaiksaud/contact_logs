@@ -10,6 +10,17 @@
 <?php
 include_once('db.php');
 
+		$set = 0;
+			$stmt = oci_parse($conn, "SELECT * from show_data");
+			if(oci_execute($stmt))
+			{
+				$name_row = oci_fetch_array($stmt);
+				if(isset($name_row[0])) $set = 1; 
+				else
+					echo "Session has ended <a class='show' href='index.php'>Click here</a> to login" ;
+			}
+			if($set == 1)
+			{
 $stmt = oci_parse($conn, "select NVL(MAX(start_date),'01-JAN-2015'), NVL(MAX(end_date),SYSDATE) from dates");
 if(oci_execute($stmt))
 {
@@ -620,6 +631,7 @@ else
 		</td>
 -->
 <?php
+			}
 oci_close($conn);
 ?>
 </html>

@@ -1,11 +1,23 @@
 <html>
 <head>
-<title>Statictics</title>
+<title>Tabular Statictics</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <?php
 include_once('db.php');
+
+		$set = 0;
+			$stmt = oci_parse($conn, "SELECT * from show_data");
+			if(oci_execute($stmt))
+			{
+				$name_row = oci_fetch_array($stmt);
+				if(isset($name_row[0])) $set = 1; 
+				else
+					echo "Session has ended <a class='show' href='index.php'>Click here</a> to login" ;
+			}
+			if($set == 1)
+			{
 
 $stmt = oci_parse($conn, "select distinct phone,INITCAP(TRIM(SUBSTR(phone,0,INSTR(phone,'/', 1)-1))) from call_log");
 oci_execute($stmt);
@@ -75,6 +87,7 @@ if(isset($_REQUEST['callcount']))
 <?php
 	include 'function.php';
 	show_data($conn,$_REQUEST,1);
+			}
 ?>
 <script>
 	function openWindow()

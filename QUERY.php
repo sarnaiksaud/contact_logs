@@ -7,6 +7,19 @@
 <?php
 $conn = oci_connect('saud', 'saud', 'localhost') or die ("Error connection to db");
 
+
+		$set = 0;
+			$stmt = oci_parse($conn, "SELECT * from show_data");
+			if(oci_execute($stmt))
+			{
+				$name_row = oci_fetch_array($stmt);
+				if(isset($name_row[0])) $set = 1; 
+				else
+					echo "Session has ended <a class='show' href='index.php'>Click here</a> to login" ;
+			}
+			if($set == 1)
+			{
+
 $q = "select name,trunc(d_call_date) day,CEIL(sum(duration)/60) || ' minutes' as time, count(*) count,Type
 from call_log
 where UPPER(name) like UPPER('%')
@@ -55,16 +68,27 @@ echo $q;?>
 			
 			echo "<table border=1>";
 			echo "<tr>";
+			/*
 			for ($i=0;$i<$cnt;$i++)
 			{
 				//echo "<th>".strtoupper($sub_a[$i])."</th>";
 				echo "<th>".strtoupper(substr($sub_a[$i], strrpos($sub_a[$i], ' ')))."</th>";
 			}
+			*/
+			$ncols = oci_num_fields($stmt);
+			echo "<tr>\n";
+			for ($i = 1; $i <= $ncols; ++$i) {
+				$colname = oci_field_name($stmt, $i);
+				echo "  <th><b>".htmlentities($colname, ENT_QUOTES)."</b></th>\n";
+			}
 			echo "</tr>";
+			
+			
+			
 			while($name_row=oci_fetch_array($stmt))
 			{
 					echo "<tr>";
-					for ($i=0;$i<$cnt;$i++)
+					for ($i=0;$i<$ncols;$i++)
 					{
 						echo "<td>$name_row[$i]</td>";
 					}
@@ -91,7 +115,7 @@ echo $q;?>
 	oci_execute($stmt1);
 	
 	
-	
+			}	
 ?>
 
 </body>

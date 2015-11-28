@@ -1,4 +1,20 @@
-<table border=1>
+<?php
+
+	include_once('db.php');
+	
+		$set = 0;
+			$stmt = oci_parse($conn, "SELECT * from show_data");
+			if(oci_execute($stmt))
+			{
+				$name_row = oci_fetch_array($stmt);
+				if(isset($name_row[0])) $set = 1; 
+				else
+					echo "Session has ended <a class='show' href='index.php'>Click here</a> to login" ;
+			}
+			if($set == 1)
+			{
+				?>
+				<table border=1>
 <tr>
 	<th>Log_id</th>
 	<th>Name</th>
@@ -8,9 +24,6 @@
 	<th>Duration</th>
 </tr>
 <?php
-
-	include_once('db.php');
-	
 	$stmt = oci_parse($conn, "SELECT * FROM call_log order by log_id desc");
 	if(oci_execute($stmt))
 	{
@@ -28,6 +41,6 @@
 		<?php
 		}
 	}
-	
+			}
 ?>
 </table>
