@@ -1,6 +1,7 @@
 create or replace view statistics 
 as
-select (select distinct name from call_log where pnumber = c.pnumber) name, 
+select --(select distinct name from call_log where pnumber = c.pnumber) name,  --commented on 01-12-2015
+initcap((select distinct lower(name) from call_log where pnumber = c.pnumber)) name,  --added on 01-12-2015
 pnumber,
 sum(duration) time_in_sec,
 decode(sum(duration),0,null,TO_CHAR(TRUNC(sum(duration)/3600),'FM9900') || ' HRS ' || 
