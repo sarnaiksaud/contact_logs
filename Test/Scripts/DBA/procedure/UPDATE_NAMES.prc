@@ -1,18 +1,3 @@
-select distinct pnumber,name from call_log where pnumber in (select pnumber from call_log c
-where name is null
-and exists (select 1 from call_log where pnumber = c.pnumber and name = c.name)
-group by pnumber)
-and name is not null;
-
-select pnumber,
-(select name from call_log where d_call_date in (select min(d_call_date) from call_log where pnumber = c.pnumber)) min_name,
-(select name from call_log where d_call_date in (select max(d_call_date) from call_log where pnumber = c.pnumber)) max_name
-from call_log c
-group by pnumber
-having count(distinct name) > 1;
-
-
-
 create or replace procedure update_names
 as
     cursor main_c
@@ -26,6 +11,7 @@ as
     
     p_data main_c%ROWTYPE;
      BEGIN
+     writelog('LOG','START of UPDATE_NAMES');
      OPEN main_c;
 
      LOOP
@@ -43,5 +29,11 @@ as
      END LOOP;
 
      CLOSE main_c;
+     writelog('LOG','END of UPDATE_NAMES');
   END; 
   
+  
+  
+grant execute on saud.update_names to front_end;
+
+create or replace  synonym front_end.update_names for saud.update_names ;

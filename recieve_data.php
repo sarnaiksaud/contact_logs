@@ -57,6 +57,8 @@
 	}
 	else
 	{
+		$stmt = oci_parse($conn, "BEGIN update_names; END;");
+		oci_execute($stmt);
 		echo '1';
 	}
 	
