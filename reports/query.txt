@@ -1,0 +1,33 @@
+select * from (select 
+st.name,
+st.pnumber,
+st.time_in_sec,
+st.time,
+TO_CHAR((select min(d_call_date) from call_log where pnumber = st.pnumber),'DD-MON-RRRR HH24:MI:SS') first_call,
+TO_CHAR((select max(d_call_date) from call_log where pnumber = st.pnumber),'DD-MON-RRRR HH24:MI:SS') last_call,
+(select count(pnumber) from call_log where pnumber = st.pnumber) call_counts,
+(select max(to_number(duration)) from call_log where pnumber = st.pnumber) longest_call,
+get_time((select max(to_number(duration)) from call_log where pnumber = st.pnumber)) longest_call_formatted
+from STATISTICS st
+where name is not null
+and GET_NUMBER_TYPE(pnumber) in (2,3,5)
+and time_in_sec <> 0)
+--where first_call = last_call
+where call_counts > 1;
+
+
+select 'NAME,PNUMBER,TIME_IN_SEC,TIME,FIRST_CALL,LAST_CALL,CALL_COUNT,LONGEST_CALL_IN_SEC,LONGEST_CALL' AS DATA FROM DUAL
+UNION ALL
+select 
+st.name || ',' ||
+st.pnumber || ',' ||
+st.time_in_sec || ',' ||
+st.time || ',' ||
+TO_CHAR((select min(d_call_date) from call_log where pnumber = st.pnumber),'DD-MON-RRRR HH24:MI:SS') || ',' ||
+TO_CHAR((select max(d_call_date) from call_log where pnumber = st.pnumber),'DD-MON-RRRR HH24:MI:SS') || ',' ||
+(select count(pnumber) from call_log where pnumber = st.pnumber)  || ',' ||
+(select max(to_number(duration)) from call_log where pnumber = st.pnumber)  || ',' ||
+get_time((select max(to_number(duration)) from call_log where pnumber = st.pnumber)) 
+from STATISTICS st
+where name is not null
+and GET_NUMBER_TYPE(pnumber) in (2,3,5);
