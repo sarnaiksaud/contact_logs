@@ -331,8 +331,14 @@ AS
                                                                          'sun' AS sunday));
 																		 
 																		 
-CREATE OR replace VIEW month_wise_analysis AS 
-SELECT * 
+DROP VIEW SAUD.MONTH_WISE_ANALYSIS;
+
+CREATE OR REPLACE FORCE VIEW SAUD.MONTH_WISE_ANALYSIS
+(CALL_TYPE, JAN, FEB, MAR, APR, 
+ MAY, JUN, JUL, AUG, SEP, 
+ OCT, NOV, DEC)
+AS 
+SELECT "CALL_TYPE","JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC" 
 FROM  ( 
               SELECT 'Outgoing'                            AS call_type, 
                      Lower(To_char(d_call_date,'MM-YYYY')) AS mon 
@@ -347,11 +353,11 @@ FROM  (
                                                                 '07-2015'  AS jul, 
                                                                 '08-2015'  AS aug, 
                                                                 '09-2015'  AS sep, 
-                                                                '010-2015' AS oct, 
-                                                                '011-2015' AS nov, 
-                                                                '011-2015' AS DEC)) 
+                                                                '10-2015' AS oct, 
+                                                                '11-2015' AS nov, 
+                                                                '12-2015' AS DEC)) 
 UNION ALL 
-SELECT * 
+SELECT "'INCOMING'","JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC" 
 FROM  ( 
               SELECT 'Incoming', 
                      lower(to_char(d_call_date,'MM-YYYY')) AS month 
@@ -366,11 +372,11 @@ FROM  (
                                                                   '07-2015'  AS jul, 
                                                                   '08-2015'  AS aug, 
                                                                   '09-2015'  AS sep, 
-                                                                  '010-2015' AS oct, 
-                                                                  '011-2015' AS nov, 
-                                                                  '011-2015' AS DEC)) 
+                                                                  '10-2015' AS oct, 
+                                                                  '11-2015' AS nov, 
+                                                                  '12-2015' AS DEC)) 
 UNION ALL 
-SELECT * 
+SELECT "'MISSED'","JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC" 
 FROM  ( 
               SELECT 'Missed', 
                      lower(to_char(d_call_date,'MM-YYYY')) AS month 
@@ -384,9 +390,16 @@ FROM  (
                                                                     '07-2015'  AS jul, 
                                                                     '08-2015'  AS aug, 
                                                                     '09-2015'  AS sep, 
-                                                                    '010-2015' AS oct, 
-                                                                    '011-2015' AS nov, 
-                                                                    '011-2015' AS DEC));
+                                                                    '10-2015' AS oct, 
+                                                                    '11-2015' AS nov, 
+                                                                    '12-2015' AS DEC));
+
+
+CREATE OR REPLACE SYNONYM FRONT_END.MONTH_WISE_ANALYSIS FOR SAUD.MONTH_WISE_ANALYSIS;
+
+
+GRANT SELECT ON SAUD.MONTH_WISE_ANALYSIS TO FRONT_END;
+
 																	
 CREATE OR replace VIEW year_wise_analysis AS 
 SELECT * 

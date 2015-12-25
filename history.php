@@ -28,7 +28,7 @@
 		if(oci_execute($stmt)) 
 		{ while($name_row=oci_fetch_array($stmt)) 
 			{ ?>	
-		<a class="noshow" href="details.php?pnumber=<?=htmlentities ($name_row[1])?>">
+		<a class="noshow" href="new_details.php?pnumber=<?=htmlentities ($name_row[1])?>">
 			<div class="main size20">
 				<div class="picture"><span><?=substr($name_row[0],0,1)?></span></div>
 				<div class="content">
