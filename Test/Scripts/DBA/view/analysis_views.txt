@@ -772,9 +772,9 @@ FROM  (
                                                                 '07-2015'  AS jul, 
                                                                 '08-2015'  AS aug, 
                                                                 '09-2015'  AS sep, 
-                                                                '010-2015' AS oct, 
-                                                                '011-2015' AS nov, 
-                                                                '011-2015' AS DEC)) 
+                                                                '10-2015' AS oct, 
+                                                                '11-2015' AS nov, 
+                                                                '12-2015' AS DEC)) 
 UNION ALL 
 SELECT * 
 FROM  ( 
@@ -791,9 +791,9 @@ FROM  (
                                                                   '07-2015'  AS jul, 
                                                                   '08-2015'  AS aug, 
                                                                   '09-2015'  AS sep, 
-                                                                  '010-2015' AS oct, 
-                                                                  '011-2015' AS nov, 
-                                                                  '011-2015' AS DEC)) 
+                                                                  '10-2015' AS oct, 
+                                                                  '11-2015' AS nov, 
+                                                                  '12-2015' AS DEC)) 
 UNION ALL 
 SELECT * 
 FROM  ( 
@@ -809,9 +809,9 @@ FROM  (
                                                                     '07-2015'  AS jul, 
                                                                     '08-2015'  AS aug, 
                                                                     '09-2015'  AS sep, 
-                                                                    '010-2015' AS oct, 
-                                                                    '011-2015' AS nov, 
-                                                                    '011-2015' AS DEC));
+                                                                    '10-2015' AS oct, 
+                                                                    '11-2015' AS nov, 
+                                                                    '12-2015' AS DEC));
 																	
 CREATE OR replace VIEW year_wise_analysis AS 
 SELECT * 

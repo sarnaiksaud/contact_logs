@@ -19,6 +19,8 @@
 			{
 				
 		$pnumber = trim($_REQUEST['pnumber']);
+		$mobile_op = '';
+		$locality = '';
 		
 		$stmt = oci_parse($conn, "select * from name_detail_min_max where pnumber like '%$pnumber%'");
 		oci_execute($stmt);
@@ -35,6 +37,14 @@
 		if(isset($name_row[2])) $min_call = 'First Call : ' . $name_row[2]; 
 		if(isset($name_row[3])) $max_call = 'Last Call : ' . $name_row[3];
 		
+		$stmt = oci_parse($conn, "select nvl(max(mobile_op),'Unknown'),nvl(max(locality),'Unknown') from number_cat where pnumber like '%$pnumber%'");
+		oci_execute($stmt);
+		$name_row = oci_fetch_array($stmt);
+		
+		$mobile_op = str_replace('Number','',$name_row[0]); 
+		$locality = str_replace('Number','',$name_row[1]); 
+		
+		
 		if($set == 1)
 		{
 			
@@ -47,6 +57,7 @@
 						<p class="number"><?=$pnumber?></p>
 						<p class="number"><?=$min_call?></p>
 						<p class="number"><?=$max_call?></p>
+						<p class="number"><?=$mobile_op?> - <?=$locality?></p>
 					</div>
 				</div>
 		<hr>
