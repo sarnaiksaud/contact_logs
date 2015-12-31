@@ -15,7 +15,7 @@ $conn = oci_connect('saud', 'saud', 'localhost') or die ("Error connection to db
 				$name_row = oci_fetch_array($stmt);
 				if(isset($name_row[0])) $set = 1; 
 				else
-					echo "Session has ended <a class='show' href='index.php'>Click here</a> to login" ;
+					echo "Session has ended <a class='show' href='login_form.php'>Click here</a> to login" ;
 			}
 			if($set == 1)
 			{
@@ -32,10 +32,10 @@ order by to_number(CEIL(sum(duration)/60)) desc,trunc(d_call_date) desc";
 
 
 ?>
-<form>
+<form id="formId">
 	<table>
 	<tr><td colspan=3>
-		<textarea name="query" rows="20" cols="100%">
+		<textarea id="textarea" name="query" rows="20" cols="100%" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 <?php IF (isset($_REQUEST['query'])) 
 $q = $_REQUEST['query'];
 
@@ -117,6 +117,25 @@ echo $q;?>
 	
 			}	
 ?>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+	$("#textarea").focus();
+	$("#textarea").val($("#textarea").val().trim());
+ $('#formId #textarea').keypress(function(e) {
+    if(window.event) {
+      var keyCode = window.event.keyCode;     
+    }
+    else {
+      var keyCode = e.keyCode || e.which;
+    }
 
+    if( (!e.ctrlKey && (keyCode == 13)) ) {
+      //
+    }
+    else if( (e.ctrlKey && (keyCode == 13)) || (keyCode == 10) ) {
+      $('#formId').submit();
+    }                  
+  });
+</script>
 </body>
 </html>

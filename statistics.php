@@ -13,7 +13,7 @@
 				$name_row = oci_fetch_array($stmt);
 				if(isset($name_row[0])) $set = 1; 
 				else
-					echo "Session has ended <a class='show' href='index.php'>Click here</a> to login" ;
+					echo "Session has ended <a class='show' href='login_form.php'>Click here</a> to login" ;
 			}
 		
 			$stmt = oci_parse($conn, "SELECT TO_CHAR(max(start_date),'DD-Mon-YYYY'),TO_CHAR(nvl(max(end_date),sysdate),'DD-Mon-YYYY') from dates");

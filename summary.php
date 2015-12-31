@@ -17,7 +17,7 @@ include_once('db.php');
 				$name_row = oci_fetch_array($stmt);
 				if(isset($name_row[0])) $set = 1; 
 				else
-					echo "Session has ended <a class='show' href='index.php'>Click here</a> to login" ;
+					echo "Session has ended <a class='show' href='login_form.php'>Click here</a> to login" ;
 			}
 			if($set == 1)
 			{

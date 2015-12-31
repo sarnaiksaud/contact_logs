@@ -9,7 +9,8 @@
 	:ptype,
 	:pcall_date,
 	:pduration,
-	:device
+	:device,
+	:inserted
 	);
 	END;
 	");
@@ -24,8 +25,10 @@
 	oci_bind_by_name($stmt, "pcall_date", $old_date);
 	oci_bind_by_name($stmt, "pduration", $zero);
 	oci_bind_by_name($stmt, "device",  $test);
+	oci_bind_by_name($stmt, "inserted", $inserted,-1);
 
 	oci_execute($stmt);
+	echo "inserted : " . $inserted;
 	
 	$counter = 1;
 	

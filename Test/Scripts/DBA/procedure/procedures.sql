@@ -11,8 +11,13 @@ inserted out number
 IS
 x NUMBER;
 pnumber_f VARCHAR2(20);
+d_call_date varchar2(50);
+error_text call_log_error.error_text%type;
 BEGIN
     inserted := -1;
+    
+    --insert into front_end.text_data values (p_pnumber || '-' || p_call_date);
+    
     BEGIN
         SELECT 1 INTO x FROM call_log
         WHERE call_date = p_call_date;
@@ -24,6 +29,10 @@ BEGIN
         IF get_number_type(pnumber_f) = 3 THEN
             pnumber_f := '+91' || pnumber_f;
         END IF;
+        
+        d_call_date := SUBSTR(p_call_date,5);
+        
+        d_call_date := SUBSTR(d_call_date,1,INSTR(d_call_date,'GMT')-1) || SUBSTR(d_call_date,-4);
         
         INSERT INTO call_log
         (
@@ -43,7 +52,7 @@ BEGIN
             p_name,
             pnumber_f,
             p_type,
-            TO_DATE(UPPER(SUBSTR(p_call_date,1,INSTR(p_call_date,'GMT')-1)),'DY MON DD HH24:MI:SS'),
+            TO_DATE(UPPER(d_call_date),'MON DD HH24:MI:SS RRRR'),
             p_call_date,
             p_duration,
             SYSDATE,
@@ -51,6 +60,35 @@ BEGIN
         );
         inserted := 1;
     END;
+EXCEPTION
+    WHEN OTHERS THEN
+    error_text := SQLERRM;
+    INSERT INTO call_log_error
+        (
+            log_id,
+            name,
+            pnumber,
+            type,
+            d_call_date,
+            call_date,
+            duration,
+            timestamp,
+            phone,
+            error_text
+        )
+        VALUES
+        (
+            seq_cl.NEXTVAL,
+            p_name,
+            pnumber_f,
+            p_type,
+            d_call_date,
+            p_call_date,
+            p_duration,
+            SYSDATE,
+            p_device,
+            error_text
+        );
 END;
 /
 

@@ -12,6 +12,7 @@
 	
 	$counter = 0;
 	
+
 	if($json != null)
 	{
 		foreach ($json as $d)
@@ -62,4 +63,5 @@
 		echo '1';
 	}
 	
+	oci_close($conn);
 ?>
