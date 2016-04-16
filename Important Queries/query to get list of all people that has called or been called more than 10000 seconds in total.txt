@@ -1,0 +1,28 @@
+select name,pnumber,type,count(1) no_of_calls,sum(duration) total_call_duration_sec,get_time(sum(duration)) total_call_duration,trunc(min(d_call_date)) first_call,trunc(max(d_call_date)) last_call
+from call_log
+where 
+--name like '%Shoba%'and 
+type <> 'Missed' 
+group by name,type,pnumber
+having sum(duration) > 10000
+order by 1,2,3;
+
+/*
+
+Data as on 31.03.2016
+
+NAME	PNUMBER	TYPE	NO_OF_CALLS	TOTAL_CALL_DURATION_SEC	TOTAL_CALL_DURATION	FIRST_CALL	LAST_CALL
+Mom Voda	+919833034070	Incoming	393	15246	04 HRS 14 MINS 06 SECS	10/Apr/15	31/Mar/16
+Mom Voda	+919833034070	Outgoing	324	11554	03 HRS 12 MINS 34 SECS	24/Mar/15	31/Mar/16
+Shoba_IGATE	+919004646659	Incoming	129	42322	11 HRS 45 MINS 22 SECS	24/Mar/15	30/Mar/16
+Shoba_IGATE	+919004646659	Outgoing	430	56992	15 HRS 49 MINS 52 SECS	24/Mar/15	31/Mar/16
+Shoba_IGATE	+919444015462	Outgoing	364	50712	14 HRS 05 MINS 12 SECS	23/Mar/15	25/Feb/16
+Sonia_IGATE	+918056474287	Outgoing	43	10547	02 HRS 55 MINS 47 SECS	29/Apr/15	06/Mar/16
+Stephy_IGATE	+919944673049	Outgoing	33	15603	04 HRS 20 MINS 03 SECS	04/Jan/16	28/Mar/16
+Yodlee Toll Free	18002660324	Outgoing	17	15675	04 HRS 21 MINS 15 SECS	19/Aug/15	11/Feb/16
+Zaid Hoona	+919773556890	Incoming	82	10572	02 HRS 56 MINS 12 SECS	18/Apr/15	13/Mar/16
+Zaid Hoona	+919773556890	Outgoing	266	19754	05 HRS 29 MINS 14 SECS	30/Mar/15	27/Mar/16
+	+919769449749	Incoming	56	26045	07 HRS 14 MINS 05 SECS	01/Jun/15	18/Dec/15
+	+919769449749	Outgoing	167	63090	17 HRS 31 MINS 30 SECS	06/Apr/15	04/Mar/16
+	
+	*/

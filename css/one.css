@@ -1,0 +1,128 @@
+body
+{
+	background-color:#EEEEEE;
+	overflow: hidden;
+}
+.head
+{
+	width:100%;
+}
+table
+{
+	width:100%;
+}
+th
+{
+	background-color:#888888;
+}
+tr:nth-child(odd)
+{
+	background-color:#dddddd;
+}
+tr.new:nth-child(4n)
+{
+	background-color:#dddddd;
+}
+
+tr, td, th
+{
+	border:0.5px solid #888888;
+}
+td
+{
+	text-align:center;
+}
+td.text_left
+{
+	text-align:left;
+}
+.block
+{
+	padding:15px;
+	box-shadow: 1px 1px 5px #888888;
+	border:0.5px solid #888888;
+	border-radius: 2px;
+	
+	/*
+	overflow-y: auto;
+	overflow-x: hidden;
+	*/
+}
+.innerblock{
+	border:0.5px solid #888888;
+	height:85%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.block:hover
+{
+	box-shadow: 1px 1px 10px #000000;
+	border:0.5px solid #888888;
+	border-radius: 2px;
+}
+.block:first-child{
+	margin-left:1%;
+	margin-right:15px;
+}
+
+.block:nth-child(2){
+	margin-right:15px;
+}
+.first-row
+{
+	height:55%;
+}
+.first-row .first-div {
+  width:55%;
+    float:left;
+	  height:95%;
+  background-color:#CCCCCC;
+}
+
+.first-row .second-div {
+  width:17%;
+    float:left;
+	  height:95%;
+  background-color:#CCCCCC;
+}
+
+.first-row .third-div {
+  width:17%;
+    float:left;
+	  height:95%;
+  background-color:#CCCCCC;
+}
+.second-row
+{
+	margin-top:10px;
+	height:35%;
+}
+.second-row .first-div {
+  width:49%;
+    float:left;
+	  height:95%;
+  background-color:#CCCCCC;
+}
+.second-row .second-div {
+  width:40%;
+    float:left;
+	  height:95%;
+  background-color:#CCCCCC;
+}
+.second-row .third-div {
+  width:28%;
+    float:left;
+	  height:95%;
+  background-color:#CCCCCC;
+}
+*/
+.block span
+{
+	font-weight:bold;
+}
+ul li.hor
+{
+	display: inline;
+	padding: 10px 20px;
+    text-decoration: none;
+}

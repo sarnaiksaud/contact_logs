@@ -1,0 +1,7 @@
+select nvl(name,'SHIT'),type,sum(duration),get_time(sum(duration)),case when type='Outgoing' then ceil((sum(duration)/60))*0.5 end out_amt
+,case when type='Incoming' then ceil((sum(duration)/60))*0.5 end in_amt
+from call_log
+where to_number(duration) > 0
+and name is not null
+group by nvl(name,'SHIT'),type
+order by 3 desc ,2,1

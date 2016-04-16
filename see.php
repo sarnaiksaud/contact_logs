@@ -24,7 +24,7 @@
 	<th>Duration</th>
 </tr>
 <?php
-	$stmt = oci_parse($conn, "SELECT * FROM call_log order by log_id desc");
+	$stmt = oci_parse($conn, "SELECT log_id,name,pnumber,type,call_date,get_time(duration) FROM call_log order by log_id desc");
 	if(oci_execute($stmt))
 	{
 		while($name_row=oci_fetch_array($stmt))
@@ -36,7 +36,7 @@
 				<td><?=$name_row[2]?></td>
 				<td><?=$name_row[3]?></td>
 				<td><?=$name_row[4]?></td>
-				<td><?=$name_row[5]?> seconds</td>
+				<td><?=strtolower($name_row[5])?></td>
 			</tr>
 		<?php
 		}

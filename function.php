@@ -62,7 +62,7 @@ function show_data($conn,$myArray,$mdata)
 	
 	$where = array();
 	
-	$query = 'SELECT NVL(name,\'Unknown\'),pnumber,type,count(*) as "Total Calls Counts",sum(duration) duration,phone FROM call_log ';
+	$query = 'SELECT NVL(name,\'Unknown\') name,pnumber,type,count(*) as "Total Calls Counts",sum(duration) duration,phone FROM call_log ';
 	
 	if($type != "") $where[] = ' lower(type) in (:type) ';
 		
@@ -86,7 +86,8 @@ function show_data($conn,$myArray,$mdata)
 	
 	$query = $query . ' group by pnumber,name,type,phone ';
 	$query = $query . ' having count(*) > :callcount ';
-	$query = $query . ' order by count(*) desc ';
+	//$query = $query . ' order by count(*) desc ';
+	$query = $query . ' order by name desc ';
 	
 	//echo $query;
 	

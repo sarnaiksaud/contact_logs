@@ -1,0 +1,11 @@
+select TO_DATE(time),count(1)
+from 
+(
+select log_id,name,pnumber,type,d_call_date,d_call_date+duration/86400 time,lower(get_time(duration)),ceil(duration/60) from call_log
+where d_call_date between '08-Feb-2016' and '08-Mar-2016'
+and duration <> '0'
+and type = 'Outgoing'
+order by d_call_date
+)
+group by TO_DATE(time)
+order by 1

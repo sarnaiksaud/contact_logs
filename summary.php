@@ -223,8 +223,8 @@ else
 							while($name_row=oci_fetch_array($stmt))
 							{
 								$data = $data . "<tr>";
-								$data = $data . "<td>$name_row[0]</td>";
 								$data = $data . "<td>$name_row[1]</td>";
+								$data = $data . "<td>$name_row[2]</td>";
 								// $data = $data . "<td>$name_row[3]</td>";
 								$data = $data . "</tr>";
 								$count++;
@@ -530,7 +530,8 @@ else
 				<a class="accordion-section-title" href="#accordion-6">Month Wise Analysis</a>
 				<div id="accordion-6" class="accordion-section-content">
 					<?php
-						$query = "select * from month_wise_analysis";
+						$query = "select * from month_wise_analysis_2016";
+						//$query = "select * from month_wise_analysis";
 						$stmt = oci_parse($conn, $query);
 						if(oci_execute($stmt))
 						{

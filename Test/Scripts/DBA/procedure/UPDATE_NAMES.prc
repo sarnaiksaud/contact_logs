@@ -1,13 +1,13 @@
-create or replace procedure update_names
+CREATE OR REPLACE procedure SAUD.update_names
 as
     cursor main_c
     is
         select pnumber,
-    (select name from call_log where d_call_date in (select min(d_call_date) from call_log where pnumber = c.pnumber)) min_name,
+    (select nvl(name,'*#$%') from call_log where d_call_date in (select min(d_call_date) from call_log where pnumber = c.pnumber)) min_name,
     (select name from call_log where d_call_date in (select max(d_call_date) from call_log where pnumber = c.pnumber)) max_name
     from call_log c
     group by pnumber
-    having count(distinct name) > 1;
+    having count(distinct nvl(name,'*#$%')) > 1;
     
     p_data main_c%ROWTYPE;
      BEGIN
@@ -22,7 +22,7 @@ as
             update call_log
             set name = p_data.max_name
             where pnumber = p_data.pnumber
-            and name = p_data.min_name;
+            and nvl(name,'*#$%') = p_data.min_name;
 
             writelog('UPDATE_NAME','Updated name for ' || p_data.pnumber || ' from ' || p_data.min_name || ' to ' || p_data.max_name || '. Rows updated ' || SQL%ROWCOUNT);
             
@@ -30,7 +30,8 @@ as
 
      CLOSE main_c;
      writelog('LOG','END of UPDATE_NAMES');
-  END; 
+  END;
+/
   
   
   
